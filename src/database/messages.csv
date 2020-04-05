@@ -1,3 +1,7 @@
-id,user_id,text,timestamp
-1,1,"This is a message",2020-04-01T18:54:22.973+0000
-2,2,"This is another message",2020-04-02T18:54:22.973+0000
+user_id,text,timestamp
+1,This is a message,2020-04-01T18:54:22.973+0000
+2,This is another message,2020-04-02T18:54:22.973+0000
+2,message,2020-04-05 22:49:03.562068+00:00
+3,I did it!,2020-04-05 22:50:10.517045+00:00
+1,I did it again!,2020-04-05 22:51:32.259025+00:00
+1,I did it again!,2020-04-05 22:54:13.300297+00:00

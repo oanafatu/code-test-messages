@@ -1,6 +1,8 @@
+from flask import request
+
 from src import app
 from src.service.exceptions import FailedToFetchMessagesException, FailedToFetchUsersException, UserNotValidException
-from src.service.service import fetch_all_messages, fetch_messages_for_user
+from src.service.service import fetch_all_messages, fetch_messages_for_user, submit_message_for_user
 
 
 @app.route('/', methods=['GET'])
@@ -34,15 +36,29 @@ def get_messages_for_user(username):
             return 'No messages found for user!'
     except UserNotValidException as e:
         print(e.error_message)
+        return 'User not valid!'
+
+
+@app.route('/messages/<string:username>/submit-message', methods=['POST'])
+def create_message_for_user(username):
+    print('Received request to submit messages for username ', username)
+    data = request.get_json()
+    text = data['text']
+    try:
+        submit_message_for_user(username, text)
+        return f'Message was successfully submited for {username}! ' \
+               f'Navigate to http://localhost:5000/messages/{username} to view all messages'
+    except UserNotValidException as e:
+        print(e.error_message)
         return e.error_message
 
 
 def _convert_to_dict(array):
     final_dict = {}
-    for item in array:
-        final_dict[item.id] = {
-            'user_id': item.user_id,
-            'text': item.text,
-            'timestamp': item.timestamp
+    for i in range(len(array)):
+        final_dict[i+1] = {
+            'user_id': array[i].user_id,
+            'text': array[i].text,
+            'timestamp': array[i].timestamp
         }
     return final_dict
