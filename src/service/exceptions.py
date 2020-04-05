@@ -12,3 +12,7 @@ class FailedToReadFromCsvException(Exception):
 
 class UserNotValidException(Exception):
     error_message = 'USERNAME_IS_NOT_VALID_EXCEPTION'
+
+
+class FailedToDeleteMessagesException(Exception):
+    error_message = 'FAILED_TO_DELETE_MESSAGES_EXCEPTION'

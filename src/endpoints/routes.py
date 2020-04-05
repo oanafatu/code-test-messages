@@ -2,7 +2,8 @@ from flask import request
 
 from src import app
 from src.service.exceptions import FailedToFetchMessagesException, FailedToFetchUsersException, UserNotValidException
-from src.service.service import fetch_all_messages, fetch_messages_for_user, submit_message_for_user
+from src.service.service import fetch_all_messages, fetch_messages_for_user, submit_message_for_user, \
+    delete_messages_by_ids
 
 
 @app.route('/', methods=['GET'])
@@ -55,7 +56,15 @@ def create_message_for_user(username):
 
 @app.route('/messages/delete-messages', methods=['POST'])
 def delete_messages():
-    pass
+    print('Received request to delete the following messages')
+    data = request.get_json()
+    ids = data['ids']
+    try:
+        delete_messages_by_ids(ids)
+        return 'Success'
+    except FailedToFetchMessagesException as e:
+        print(e.error_message)
+        return e.error_message
 
 
 def _convert_to_dict(array):

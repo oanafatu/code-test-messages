@@ -14,7 +14,7 @@ from src.utils import get_file_path
 def fetch_all_messages() -> List[Message]:
     print('Start to fetch messages')
     try:
-        data = _fetch_data_from_csv_file('messages')
+        data = _get_data_from_csv_file('messages')
         messages = []
         for index, row in data.iterrows():
             messages.append(Message(
@@ -33,7 +33,7 @@ def fetch_messages_for_user(username: str) -> List[Message]:
     try:
         user = _validate_user(username)
         messages = []
-        data = _fetch_data_from_csv_file('messages')
+        data = _get_data_from_csv_file('messages')
         filtered_data = data[data['user_id'] == user.id]
         for index, row in filtered_data.iterrows():
             messages.append(Message(
@@ -64,10 +64,25 @@ def submit_message_for_user(username: str, text: str):
         raise UserNotValidException(str(e)) from e
 
 
+def delete_messages_by_ids(ids: List[str]):
+    try:
+        data = _get_data_from_csv_file('messages')
+        for id in ids:
+            print(id)
+            index_names = data[data['id'] == id].index
+            data.drop(index_names, inplace=True)
+        file_path = get_file_path(__file__, '../database/messages.csv')
+        data.to_csv(file_path, index=False)
+    except FailedToReadFromCsvException as e:
+        raise FailedToFetchMessagesException(str(e)) from e
+    except Exception as e:
+        raise FailedToDeleteMessagesException(str(e)) from e
+
+
 def _validate_user(username: str) -> User:
     print('Validating username: ', username)
     try:
-        data = _fetch_data_from_csv_file('users')
+        data = _get_data_from_csv_file('users')
         for index, row in data.iterrows():
             if row['username'] == username:
                 return User(
@@ -79,7 +94,7 @@ def _validate_user(username: str) -> User:
         raise FailedToFetchUsersException(str(e)) from e
 
 
-def _fetch_data_from_csv_file(filename) -> DataFrame:
+def _get_data_from_csv_file(filename) -> DataFrame:
     try:
         file_path = get_file_path(__file__, f'../database/{filename}.csv')
         return pd.read_csv(file_path)
