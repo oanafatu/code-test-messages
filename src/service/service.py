@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from typing import List
 
 import pandas as pd
+from uuid import uuid4
 from pandas import DataFrame
 
 from src.models import Message, User
@@ -17,6 +18,7 @@ def fetch_all_messages() -> List[Message]:
         messages = []
         for index, row in data.iterrows():
             messages.append(Message(
+                id=row['id'],
                 user_id=row['user_id'],
                 text=row['text'],
                 timestamp=row['timestamp']
@@ -35,6 +37,7 @@ def fetch_messages_for_user(username: str) -> List[Message]:
         filtered_data = data[data['user_id'] == user.id]
         for index, row in filtered_data.iterrows():
             messages.append(Message(
+                id=row['id'],
                 user_id=row['user_id'],
                 text=row['text'],
                 timestamp=row['timestamp']
@@ -50,6 +53,7 @@ def submit_message_for_user(username: str, text: str):
     try:
         user = _validate_user(username)
         df = pd.DataFrame({
+            'id': uuid4(),
             'user_id': user.id,
             'text': text,
             'timestamp': datetime.now(timezone.utc)

@@ -1,7 +1,5 @@
-user_id,text,timestamp
-1,This is a message,2020-04-01T18:54:22.973+0000
-2,This is another message,2020-04-02T18:54:22.973+0000
-2,message,2020-04-05 22:49:03.562068+00:00
-3,I did it!,2020-04-05 22:50:10.517045+00:00
-1,I did it again!,2020-04-05 22:51:32.259025+00:00
-1,I did it again!,2020-04-05 22:54:13.300297+00:00
+id,user_id,text,timestamp
+e3fbf1ba-20d8-4c39-a52c-b12e38785943,1,This is a message,2020-04-01T18:54:22.973+0000
+8c39c437-ec2a-43dc-a94b-cb0041c2bc31,2,This is another message,2020-04-02T18:54:22.973+0000
+fa3af6c1-94b8-46f0-b5fa-cef15810f855,3,I did it!,2020-04-05 23:23:13.682918+00:00
+5a6dcc02-65b0-4999-b9f5-07dc447b2c83,3,I did it again!,2020-04-05 23:23:30.404939+00:00

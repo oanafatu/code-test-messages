@@ -53,12 +53,17 @@ def create_message_for_user(username):
         return e.error_message
 
 
+@app.route('/messages/delete-messages', methods=['POST'])
+def delete_messages():
+    pass
+
+
 def _convert_to_dict(array):
     final_dict = {}
-    for i in range(len(array)):
-        final_dict[i+1] = {
-            'user_id': array[i].user_id,
-            'text': array[i].text,
-            'timestamp': array[i].timestamp
+    for item in array:
+        final_dict[item.id] = {
+            'user_id': item.user_id,
+            'text': item.text,
+            'timestamp': item.timestamp
         }
     return final_dict

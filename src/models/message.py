@@ -4,6 +4,7 @@ from datetime import datetime
 
 @dataclass
 class Message:
+    id: str
     user_id: int
     text: str
     timestamp: datetime
