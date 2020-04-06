@@ -1,2 +1,4 @@
 id,user_id,text,timestamp
-8c39c437-ec2a-43dc-a94b-cb0041c2bc31,2,This is another message,2020-04-02T18:54:22.973+0000
+8c39c437-ec2a-43dc-a94b-cb0041c2bc31,1,This is a message,2020-04-02T18:54:22.973+0000
+834ca4f1-0650-48a5-abb8-0236cc871e39,2,This is another message,2020-04-02T18:54:22.973+0000
+e4ac3fe4-39f5-41b4-9d2b-ab3e5c7ffc11,2,This is another message for user2,2020-04-03T18:54:22.973+0000
