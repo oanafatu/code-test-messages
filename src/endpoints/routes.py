@@ -1,10 +1,14 @@
 from flask import request
 
 from src import app
-from src.service.exceptions import UserNotValidException, NoMessagesFoundException, \
+from src.service.exceptions import (
+    NoMessagesFoundException,
     NoMessageFoundException
-from src.service.service import fetch_all_messages, fetch_messages_for_user, submit_message_for_user, \
-    delete_messages_by_ids, fetch_message_by_id
+)
+from src.service.service import (
+    fetch_all_messages, fetch_messages_for_user, submit_message_for_user,
+    delete_messages_by_ids, fetch_message_by_id, fetch_all_not_fetched_messages
+)
 
 
 @app.route('/', methods=['GET'])
@@ -17,6 +21,20 @@ def get_all_messages():
     print('Received request to fetch all messages')
     try:
         response = fetch_all_messages()
+        if response['status_code'] != 200:
+            return response['error']
+        messages = _convert_to_dict(response['data'])
+        print(f'Received all messages: {messages}')
+        return messages
+    except NoMessagesFoundException as e:
+        return str(e)
+
+
+@app.route('/messages/not-fetched', methods=['GET'])
+def get_all_not_fetched_messages():
+    print('Received request to fetch all messages that were not previously fetched')
+    try:
+        response = fetch_all_not_fetched_messages()
         if response['status_code'] != 200:
             return response['error']
         messages = _convert_to_dict(response['data'])

@@ -32,6 +32,34 @@ def fetch_all_messages() -> dict:
         return {'status_code': 400, 'error': str(e)}
 
 
+def fetch_all_not_fetched_messages() -> dict:
+    print('Start fetching messages not previously fetched...')
+    try:
+        df = _get_data_frame_from_csv_file('messages')
+        if df.empty:
+            raise NoMessagesFoundException('No messages found in the database, noting to fetch!')
+
+        filtered_df = df[df['fetched'] == False]
+        if filtered_df.empty:
+            raise NoMessagesFoundException('All messages were previously fetched!')
+
+        df.loc[df['fetched'] == False, 'fetched'] = True
+        _write_data_frame_to_csv_file(df, 'messages')
+
+        messages = []
+        for index, row in filtered_df.iterrows():
+            messages.append(Message(
+                id=row['id'],
+                user_id=row['user_id'],
+                text=row['text'],
+                timestamp=row['timestamp']
+            ))
+        print(f'Fetched all messages not previously fetched. All messages were marked as fetched.')
+        return {'status_code': 200, 'data': messages}
+    except FailedToReadFromCsvException as e:
+        return {'status_code': 400, 'error': str(e)}
+
+
 def fetch_message_by_id(message_id) -> dict:
     print('Start fetching the message ...')
     try:
@@ -57,7 +85,6 @@ def fetch_messages_for_user(username: str) -> dict:
     print('Start fetching the messages for user ...')
     try:
         user = _validate_user(username)
-        messages = []
         df = _get_data_frame_from_csv_file('messages')
         if df.empty:
             raise NoMessagesFoundException('No messages found in the database, noting to fetch!')
@@ -69,6 +96,7 @@ def fetch_messages_for_user(username: str) -> dict:
         df.loc[df['user_id'] == user.id, 'fetched'] = True
         _write_data_frame_to_csv_file(df, 'messages')
 
+        messages = []
         for index, row in filtered_df.iterrows():
             messages.append(Message(
                 id=row['id'],
