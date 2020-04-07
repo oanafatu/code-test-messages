@@ -24,10 +24,14 @@ For example: `curl -X POST --data '{"text": "I did it!"}' --header "Content-Type
 -  curl -X POST --data '{"ids": [{message_id}, {message_id}]}' --header "Content-Type:application/json" http://localhost:5000/messages/delete-messages
 For example: `curl -X POST --data '{"ids": ["fa3af6c1-94b8-46f0-b5fa-cef15810f855"]}' --header "Content-Type:application/json" http://localhost:5000/messages/delete-messages`
 
+#### To fetch all messages that were not previously fetched, use one of the options below:
+- navigate to: http://localhost:5000/messages/not-fetched
+- curl http://localhost:5000/messages/not-fetched
+
 #### To fetch all messages, use one of the options below:
 - navigate to: http://localhost:5000/messages/
 - curl http://localhost:5000/messages/
-``
+
 #### To fetch one message by id, use one of the options below:
 - navigate to: http://localhost:5000/messages/{message_id} --> for example: `http://localhost:5000/messages/834ca4f1-0650-48a5-abb8-0236cc871e39`
 - curl http://localhost:5000/messages/{message_id} --> for example: `curl http://localhost:5000/messages/834ca4f1-0650-48a5-abb8-0236cc871e39`
