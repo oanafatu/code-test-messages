@@ -25,7 +25,9 @@ def fetch_all_messages() -> dict:
         data_frame.update(new_df)
         _write_data_frame_to_csv_file(data_frame, 'messages')
 
-        return {'status_code': 200, 'data': data_frame}
+        messages_dict = _convert_messages_df_to_dict(data_frame)
+
+        return {'status_code': 200, 'data': messages_dict}
     except FailedToReadFromCsvException as e:
         return {'status_code': 400, 'error': str(e)}
 
@@ -47,7 +49,9 @@ def fetch_all_not_already_fetched_messages() -> dict:
         _write_data_frame_to_csv_file(data_frame, 'messages')
 
         print(f'Fetched all messages not previously fetched. All messages were marked as fetched.')
-        return {'status_code': 200, 'data': filtered_df}
+
+        messages_dict = _convert_messages_df_to_dict(filtered_df)
+        return {'status_code': 200, 'data': messages_dict}
     except FailedToReadFromCsvException as e:
         return {'status_code': 400, 'error': str(e)}
 
@@ -70,7 +74,16 @@ def fetch_ordered_messages_in_range(start_index, stop_index) -> dict:
             data_frame.at[i, 'fetched'] = True
         _write_data_frame_to_csv_file(data_frame, 'messages')
 
-        return {'status_code': 200, 'data': filtered_df}
+        messages_dict = {}
+        for index, row in filtered_df.iterrows():
+            messages_dict[row['timestamp']] = {
+                'index': index,
+                'id': row['id'],
+                'useId': row['user_id'],
+                'text': row['text']
+            }
+
+        return {'status_code': 200, 'data': messages_dict}
     except FailedToReadFromCsvException as e:
         return {'status_code': 400, 'error': str(e)}
 
@@ -82,7 +95,8 @@ def fetch_all_users() -> dict:
         if data_frame.empty:
             raise NoUsersFoundException('No users found in the database, noting to fetch!')
 
-        return {'status_code': 200, 'data': data_frame}
+        user_dict = _convert_users_df_to_dict(data_frame)
+        return {'status_code': 200, 'data': user_dict}
     except FailedToReadFromCsvException as e:
         return {'status_code': 400, 'error': str(e)}
 
@@ -101,8 +115,9 @@ def fetch_message_by_id(message_id) -> dict:
         data_frame.loc[data_frame['id'] == message_id, 'fetched'] = True
         _write_data_frame_to_csv_file(data_frame, 'messages')
 
+        message_dict = _convert_messages_df_to_dict(filtered_df)
         print('Received fetched data')
-        return {'status_code': 200, 'data': filtered_df}
+        return {'status_code': 200, 'data': message_dict}
     except FailedToReadFromCsvException as e:
         return {'status_code': 400, 'error': str(e)}
 
@@ -123,7 +138,8 @@ def fetch_messages_for_user(username: str) -> dict:
         _write_data_frame_to_csv_file(data_frame, 'messages')
 
         print(f'Fetched messages for {username}')
-        return {'status_code': 200, 'data': filtered_df}
+        messages_dict = _convert_messages_df_to_dict(filtered_df)
+        return {'status_code': 200, 'data': messages_dict}
     except (UserNotValidException, FailedToReadFromCsvException) as e:
         return {'status_code': 400, 'error': str(e)}
 
@@ -192,3 +208,25 @@ def _write_data_frame_to_csv_file(data_frame, filename, mode='w', header=True):
         data_frame.to_csv(file_path, index=False, mode=mode, header=header)
     except FileNotFoundError:
         raise FailedToReadFromCsvException('Failed to read from csv, file not found. ')
+
+
+def _convert_messages_df_to_dict(messages_df):
+    messages_dict = {}
+    for index, row in messages_df.iterrows():
+        messages_dict[index] = {
+            'id': row['id'],
+            'useId': row['user_id'],
+            'text': row['text'],
+            'timestamp': row['timestamp']
+        }
+    return messages_dict
+
+
+def _convert_users_df_to_dict(users_df):
+    users_dict = {}
+    for index, row in users_df.iterrows():
+        users_dict[index] = {
+            'id': row['id'],
+            'username': row['username']
+        }
+    return users_dict

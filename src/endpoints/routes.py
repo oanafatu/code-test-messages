@@ -31,7 +31,7 @@ def get_all_messages():
 
         if response['status_code'] != 200:
             return response['error']
-        messages = _convert_messages_df_to_dict(response['data'])
+        messages = response['data']
         print(f'Received all messages: {messages}')
         return messages
     except NoMessagesFoundException as e:
@@ -48,18 +48,11 @@ def get_messages_in_range_ordered_by_timestamp():
         if response['status_code'] != 200:
             return response['error']
 
-        messages_df = response['data']
-        messages_dict = {}
-        for index, row in messages_df.iterrows():
-            messages_dict[row['timestamp']] = {
-                'index': index,
-                'id': row['id'],
-                'useId': row['user_id'],
-                'text': row['text']
-            }
+        messages = response['data']
+
         print(f'Received the messages between index {start_index} and {stop_index}, '
-              f'ordered by timestamp: {messages_dict}')
-        return messages_dict
+              f'ordered by timestamp: {messages}')
+        return messages
     except (NoMessagesFoundException, WrongIndexProvided) as e:
         return str(e)
 
@@ -71,7 +64,7 @@ def get_all_users():
         response = fetch_all_users()
         if response['status_code'] != 200:
             return response['error']
-        users = _convert_users_df_to_dict(response['data'])
+        users = response['data']
         print(f'Received all users: {users}')
         return users
     except NoUsersFoundException as e:
@@ -85,7 +78,7 @@ def get_message_by_id(message_id):
         response = fetch_message_by_id(message_id)
         if response['status_code'] != 200:
             return response['error']
-        message = _convert_messages_df_to_dict(response['data'])
+        message = response['data']
         print(f'Received message: {message}')
         return message
     except (NoMessageFoundException, NoMessagesFoundException) as e:
@@ -99,8 +92,9 @@ def get_messages_for_user(username):
         response = fetch_messages_for_user(username)
         if response['status_code'] != 200:
             return response['error']
-        messages = _convert_messages_df_to_dict(response['data'])
+        messages = response['data']
         print(f'Received all messages for {username}:', messages)
+
         return messages
     except (NoMessageFoundException, NoMessagesFoundException) as e:
         return str(e)
