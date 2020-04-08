@@ -6,3 +6,6 @@ pip-install:
 virtualenv:
 	python3 -m venv venv
 
+lint:
+	pylint src
+

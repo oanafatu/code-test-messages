@@ -4,8 +4,10 @@ from src import app
 from src.service.exceptions import (
     NoMessagesFoundException,
     NoMessageFoundException,
-    NoUsersFoundException, WrongIndexProvided)
-from src.service.service import (
+    NoUsersFoundException,
+    WrongIndexProvided
+)
+from src.service import (
     fetch_all_messages, fetch_messages_for_user, submit_message_for_user,
     delete_messages_by_ids, fetch_message_by_id, fetch_all_not_already_fetched_messages,
     fetch_all_users, fetch_ordered_messages_in_range)
@@ -55,7 +57,8 @@ def get_messages_in_range_ordered_by_timestamp():
                 'useId': row['user_id'],
                 'text': row['text']
             }
-        print(f'Received the messages between index {start_index} and {stop_index}, ordered by timestamp: {messages_dict}')
+        print(f'Received the messages between index {start_index} and {stop_index}, '
+              f'ordered by timestamp: {messages_dict}')
         return messages_dict
     except (NoMessagesFoundException, WrongIndexProvided) as e:
         return str(e)
@@ -161,4 +164,3 @@ def _convert_users_df_to_dict(users_df):
             'username': row['username']
         }
     return users_dict
-
