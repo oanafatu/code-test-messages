@@ -57,12 +57,16 @@ def fetch_ordered_messages_in_range(start_index, stop_index) -> dict:
         if df.empty:
             raise NoMessagesFoundException('No messages found in the database, noting to fetch!')
         try:
-            filtered_df = df.loc[[int(start_index), int(stop_index)], :]
+            filtered_df = df[int(start_index):int(stop_index)+1]
         except KeyError:
             raise WrongIndexProvided(
                 'One or both of the indexes provided are wrong. Please check the database and try again!')
 
         filtered_df = filtered_df.sort_values(by=['timestamp'])
+
+        for i in range(int(start_index), int(stop_index) + 1):
+            df.at[i, 'fetched'] = True
+        _write_data_frame_to_csv_file(df, 'messages')
 
         return {'status_code': 200, 'data': filtered_df}
     except FailedToReadFromCsvException as e:

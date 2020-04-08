@@ -37,7 +37,7 @@ def get_all_messages():
 
 
 @app.route('/api/v1/messages/order/', methods=['GET'])
-def get_messages_in_range():
+def get_messages_in_range_ordered_by_timestamp():
     start_index = request.args.get('start-index')
     stop_index = request.args.get('stop-index')
     try:
@@ -46,9 +46,17 @@ def get_messages_in_range():
         if response['status_code'] != 200:
             return response['error']
 
-        messages = _convert_messages_df_to_dict(response['data'])
-        print(f'Received all messages: {messages}')
-        return messages
+        messages_df = response['data']
+        messages_dict = {}
+        for index, row in messages_df.iterrows():
+            messages_dict[row['timestamp']] = {
+                'index': index,
+                'id': row['id'],
+                'useId': row['user_id'],
+                'text': row['text']
+            }
+        print(f'Received the messages between index {start_index} and {stop_index}, ordered by timestamp: {messages_dict}')
+        return messages_dict
     except (NoMessagesFoundException, WrongIndexProvided) as e:
         return str(e)
 

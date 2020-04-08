@@ -22,11 +22,11 @@ The data is stored and manipulated in csv files. To work with csv I use pandas. 
 
 #### To fetch all messages that were not previously fetched, use one of the options below:
 - navigate to: http://localhost:5000/api/v1/messages/?include-previously-fetched=no
-- curl http://localhost:5000/api/v1/messages/?include-previously-fetched=no
+- curl "http://localhost:5000/api/v1/messages/?include-previously-fetched=no"
 
 #### To fetch ordered by time messages between index range, use one of the options below:
 - navigate to: http://localhost:5000/api/v1/messages/order/start-index={int}&stop-index={int} --> for example: `http://localhost:5000/api/v1/messages/order/start-index=1&stop-index=3`
-- curl http://localhost:5000/api/v1/messages/order/start-index={int}&stop-index={int} --> for example: `curl http://localhost:5000/api/v1/messages/order/start-index=1&stop-index=3`
+- curl "http://localhost:5000/api/v1/messages/order/start-index={int}&stop-index={int}" --> for example: `curl "http://localhost:5000/api/v1/messages/order/start-index=1&stop-index=3"`
 
 #### To fetch one message by id, use one of the options below:
 - navigate to: http://localhost:5000/api/v1/messages/{message_id} --> for example: `http://localhost:5000/api/v1/messages/834ca4f1-0650-48a5-abb8-0236cc871e39`
