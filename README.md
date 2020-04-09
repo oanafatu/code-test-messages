@@ -14,6 +14,7 @@
 The data is stored and manipulated in csv files. To work with csv I use pandas. You can find the files under the folder database:
 - messages.csv
 - users.csv
+* If I were to start over I would probably use postgres (and SQL Alchemy) for data. 
 
 ### How to interact with the application:
 
