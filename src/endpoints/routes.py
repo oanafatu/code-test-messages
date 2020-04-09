@@ -1,6 +1,5 @@
-from flask import request
+from flask import request, Blueprint
 
-from src import app
 from src.service.exceptions import (
     NoMessagesFoundException,
     NoMessageFoundException,
@@ -12,13 +11,15 @@ from src.service import (
     delete_messages_by_ids, fetch_message_by_id, fetch_all_not_already_fetched_messages,
     fetch_all_users, fetch_ordered_messages_in_range)
 
+MESSAGES_API = Blueprint('messages_api', __name__)
 
-@app.route('/', methods=['GET'])
+
+@MESSAGES_API.route('/', methods=['GET'])
 def home():
-    return 'Welcome! Navigate to /messages to see all messages'
+    return 'Welcome! Navigate to /api/v1/messages to see all messages'
 
 
-@app.route('/api/v1/messages/', methods=['GET'])
+@MESSAGES_API.route('/api/v1/messages', methods=['GET'])
 def get_all_messages():
     include_previously_fetched = request.args.get('include-previously-fetched')
     try:
@@ -38,7 +39,7 @@ def get_all_messages():
         return str(e)
 
 
-@app.route('/api/v1/messages/order/', methods=['GET'])
+@MESSAGES_API.route('/api/v1/messages/order', methods=['GET'])
 def get_messages_in_range_ordered_by_timestamp():
     start_index = request.args.get('start-index')
     stop_index = request.args.get('stop-index')
@@ -57,7 +58,7 @@ def get_messages_in_range_ordered_by_timestamp():
         return str(e)
 
 
-@app.route('/api/v1/users/', methods=['GET'])
+@MESSAGES_API.route('/api/v1/users', methods=['GET'])
 def get_all_users():
     print('Received request to fetch all users')
     try:
@@ -71,7 +72,7 @@ def get_all_users():
         return str(e)
 
 
-@app.route('/api/v1/messages/<string:message_id>', methods=['GET'])
+@MESSAGES_API.route('/api/v1/messages/<string:message_id>', methods=['GET'])
 def get_message_by_id(message_id):
     print(f'Received request to fetch message with id {message_id}')
     try:
@@ -85,7 +86,7 @@ def get_message_by_id(message_id):
         return str(e)
 
 
-@app.route('/api/v1/messages/user/<string:username>', methods=['GET'])
+@MESSAGES_API.route('/api/v1/messages/user/<string:username>', methods=['GET'])
 def get_messages_for_user(username):
     print(f'Received request to fetch messages for username {username}')
     try:
@@ -100,7 +101,7 @@ def get_messages_for_user(username):
         return str(e)
 
 
-@app.route('/api/v1/messages/user/<string:username>/submit-message', methods=['POST'])
+@MESSAGES_API.route('/api/v1/messages/user/<string:username>/submit-message', methods=['POST'])
 def create_message_for_user(username):
     print('Received request to submit messages for username ', username)
 
@@ -119,7 +120,7 @@ def create_message_for_user(username):
         return str(e)
 
 
-@app.route('/api/v1/messages/delete-messages', methods=['POST'])
+@MESSAGES_API.route('/api/v1/messages/delete-messages', methods=['POST'])
 def delete_messages():
     print('Received request to delete messages!')
 

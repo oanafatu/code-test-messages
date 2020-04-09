@@ -8,8 +8,17 @@
 - Create a virtual environment by running `make virtualenv`
 - to activate the venv run `source venv/bin/activate`
 
+(If you have other setup you might need to run different commands to activate the venv, for example:
+ -`pyenv virtualenv 3.7.2 code-test-messages` to generate a venv
+ -`pyenv local code-test-messages` to activate it)
+
 - run `make install` 
 - to start the server, run `python run.py`
+
+You can also use:
+- `make lint` to lint the code
+- `make test` to run the tests
+
 
 The data is stored and manipulated in csv files. To work with csv I use pandas. You can find the files under the folder database:
 - messages.csv

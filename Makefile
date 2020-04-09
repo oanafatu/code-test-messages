@@ -1,6 +1,6 @@
 .PHONY: pip-install virtualenv
 
-pip-install:
+install:
 	pip install -r requirements.txt
 
 virtualenv:
@@ -9,3 +9,5 @@ virtualenv:
 lint:
 	pylint src
 
+test: install
+	pytest src
