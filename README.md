@@ -35,9 +35,9 @@ The data is stored and manipulated in csv files. To work with csv I use pandas. 
 - navigate to: http://localhost:5000/api/v1/messages?include-previously-fetched=no
 - curl "http://localhost:5000/api/v1/messages?include-previously-fetched=no"
 
-#### To fetch ordered by time messages between index range, use one of the options below:
-- navigate to: http://localhost:5000/api/v1/messages/order?start-index={int}&stop-index={int} --> for example: `http://localhost:5000/api/v1/messages/order?start-index=1&stop-index=3`
-- curl "http://localhost:5000/api/v1/messages/order?start-index={int}&stop-index={int}" --> for example: `curl "http://localhost:5000/api/v1/messages/order?start-index=1&stop-index=3"`
+#### To fetch ordered by timestamp messages, use one of the options below. You can filter the messages by start-index and / or stop-index, as below:
+- navigate to: http://localhost:5000/api/v1/messages/ordered-by-timestamp?start-index={int}&stop-index={int} --> for example: `http://localhost:5000/api/v1/messages/ordered-by-timestamp?start-index=1&stop-index=3`
+- curl "http://localhost:5000/api/v1/messages/ordered-by-timestamp?start-index={int}&stop-index={int}" --> for example: `curl "http://localhost:5000/api/v1/messages/ordered-by-timestamp?start-index=1&stop-index=3"`
 
 #### To fetch one message by id, use one of the options below:
 - navigate to: http://localhost:5000/api/v1/messages/{message_id} --> for example: `http://localhost:5000/api/v1/messages/8c39c437-ec2a-43dc-a94b-cb0041c2bc31`

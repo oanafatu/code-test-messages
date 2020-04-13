@@ -39,10 +39,14 @@ def get_all_messages():
         return str(e)
 
 
-@MESSAGES_API.route('/api/v1/messages/order', methods=['GET'])
+@MESSAGES_API.route('/api/v1/messages/ordered-by-timestamp', methods=['GET'])
 def get_messages_in_range_ordered_by_timestamp():
-    start_index = request.args.get('start-index')
-    stop_index = request.args.get('stop-index')
+    start_index = 0
+    if request.args.get('start-index'):
+        start_index = request.args.get('start-index')
+    stop_index = -1
+    if request.args.get('stop-index'):
+        stop_index = request.args.get('stop-index')
     try:
         response = fetch_ordered_messages_in_range(start_index, stop_index)
 
@@ -51,8 +55,7 @@ def get_messages_in_range_ordered_by_timestamp():
 
         messages = response['data']
 
-        print(f'Received the messages between index {start_index} and {stop_index}, '
-              f'ordered by timestamp: {messages}')
+        print(f'Received the messages ordered by timestamp: {messages}')
         return messages
     except (NoMessagesFoundException, WrongIndexProvided) as e:
         return str(e)

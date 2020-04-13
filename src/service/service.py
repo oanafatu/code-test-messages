@@ -62,6 +62,8 @@ def fetch_ordered_messages_in_range(start_index, stop_index) -> dict:
         data_frame = _get_data_frame_from_csv_file('messages')
         if data_frame.empty:
             raise NoMessagesFoundException('No messages found in the database, noting to fetch!')
+        if stop_index == -1:
+            stop_index = len(data_frame) - 1
         try:
             filtered_df = data_frame[int(start_index):int(stop_index)+1]
         except KeyError:
