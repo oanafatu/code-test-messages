@@ -1,22 +1,19 @@
 from flask import request, Blueprint
 
 from src.service.exceptions import (
-    NoMessagesFoundException,
-    NoMessageFoundException,
-    NoUsersFoundException,
-    WrongIndexProvided
+    NoMessagesFoundException, NoMessageFoundException, NoUsersFoundException, WrongIndexProvided
 )
 from src.service import (
-    fetch_all_messages, fetch_messages_for_user, submit_message_for_user,
-    delete_messages_by_ids, fetch_message_by_id, fetch_all_not_already_fetched_messages,
-    fetch_all_users, fetch_ordered_messages_in_range)
+    fetch_all_messages, fetch_messages_for_user, submit_message_for_user, delete_messages_by_ids,
+    fetch_message_by_id, fetch_all_not_already_fetched_messages, fetch_all_users, fetch_ordered_messages_in_range
+)
 
 MESSAGES_API = Blueprint('messages_api', __name__)
 
 
 @MESSAGES_API.route('/', methods=['GET'])
 def home():
-    return 'Welcome! Navigate to /api/v1/messages to see all messages'
+    return 'Welcome! Navigate to /api/v1/messages to fetch all messages'
 
 
 @MESSAGES_API.route('/api/v1/messages', methods=['GET'])
