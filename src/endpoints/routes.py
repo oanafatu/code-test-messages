@@ -86,7 +86,7 @@ def get_message_by_id(message_id):
         return str(e)
 
 
-@MESSAGES_API.route('/api/v1/messages/user/<string:username>', methods=['GET'])
+@MESSAGES_API.route('/api/v1/messages/users/<string:username>', methods=['GET'])
 def get_messages_for_user(username):
     print(f'Received request to fetch messages for username {username}')
     try:

@@ -20,24 +20,24 @@ You can also use:
 - `make test` to run the tests
 
 
-The data is stored and manipulated in csv files. To work with csv I use pandas. You can find the files under the folder database:
+The data is stored and manipulated in csv files. To work with csv I use pandas. You can find the files under the folder src/database:
 - messages.csv
 - users.csv
-* If I were to start over I would probably use postgres (and SQL Alchemy) for data. 
+* If I were to start over I would probably use postgres (and SQL Alchemy) for data storage and manipulation. 
 
 ### How to interact with the application:
 
-#### To fetch all messages, use one of the options below:
-- navigate to: http://localhost:5000/api/v1/messages/
-- curl http://localhost:5000/api/v1/messages/
+#### To fetch all messages, use one of the options below (once fetched, the messages are marked as fetched):
+- navigate to: http://localhost:5000/api/v1/messages
+- curl http://localhost:5000/api/v1/messages
 
 #### To fetch all messages that were not previously fetched, use one of the options below:
-- navigate to: http://localhost:5000/api/v1/messages/?include-previously-fetched=no
-- curl "http://localhost:5000/api/v1/messages/?include-previously-fetched=no"
+- navigate to: http://localhost:5000/api/v1/messages?include-previously-fetched=no
+- curl "http://localhost:5000/api/v1/messages?include-previously-fetched=no"
 
 #### To fetch ordered by time messages between index range, use one of the options below:
-- navigate to: http://localhost:5000/api/v1/messages/order/start-index={int}&stop-index={int} --> for example: `http://localhost:5000/api/v1/messages/order/?start-index=1&stop-index=3`
-- curl "http://localhost:5000/api/v1/messages/order/start-index={int}&stop-index={int}" --> for example: `curl "http://localhost:5000/api/v1/messages/order/?start-index=1&stop-index=3"`
+- navigate to: http://localhost:5000/api/v1/messages/order?start-index={int}&stop-index={int} --> for example: `http://localhost:5000/api/v1/messages/order?start-index=1&stop-index=3`
+- curl "http://localhost:5000/api/v1/messages/order?start-index={int}&stop-index={int}" --> for example: `curl "http://localhost:5000/api/v1/messages/order?start-index=1&stop-index=3"`
 
 #### To fetch one message by id, use one of the options below:
 - navigate to: http://localhost:5000/api/v1/messages/{message_id} --> for example: `http://localhost:5000/api/v1/messages/8c39c437-ec2a-43dc-a94b-cb0041c2bc31`
@@ -52,12 +52,12 @@ For example: `curl -X POST --data '{"text": "I did it!"}' --header "Content-Type
 For example: `curl -X POST --data '{"ids": ["775f9d8b-33ba-4734-abd5-759dd3f38251"]}' --header "Content-Type:application/json" http://localhost:5000/api/v1/messages/delete-messages`
 
 #### To fetch all users, use one of the options below:
-- navigate to: http://localhost:5000/api/v1/users/
-- curl http://localhost:5000/api/v1/users/
+- navigate to: http://localhost:5000/api/v1/users
+- curl http://localhost:5000/api/v1/users
 
 #### To fetch all messages for one user, use one of the options below:
-- navigate to: http://localhost:5000/api/v1/messages/user/{username} --> for example: `http://localhost:5000/api/v1/messages/user/elsa`
-- curl http://localhost:5000/api/v1/messages/user/{username} --> for example: `curl http://localhost:5000/api/v1/messages/user/elsa`
+- navigate to: http://localhost:5000/api/v1/messages/users/{username} --> for example: `http://localhost:5000/api/v1/messages/users/elsa`
+- curl http://localhost:5000/api/v1/messages/users/{username} --> for example: `curl http://localhost:5000/api/v1/messages/users/elsa`
 
 
 

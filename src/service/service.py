@@ -158,7 +158,7 @@ def submit_message_for_user(username: str, text: str):
         _write_data_frame_to_csv_file(data_frame, 'messages', mode='a', header=False)
 
         response_message = f'Message was successfully submitted for {username}! ' \
-            f'Navigate to http://localhost:5000/messages/user/{username} to view all user\'s messages'
+            f'Navigate to http://localhost:5000/api/v1/messages/user/{username} to view all user\'s messages'
         return {'status_code': 200, 'data': response_message}
     except UserNotValidException as e:
         return {'status_code': 400, 'error': str(e)}

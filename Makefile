@@ -1,4 +1,4 @@
-.PHONY: pip-install virtualenv
+.PHONY: pip-install virtualenv lint test
 
 install:
 	pip install -r requirements.txt
